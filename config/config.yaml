@@ -1,0 +1,73 @@
+# =============================================================================
+# Configuration for the bacterial variant-calling workflow
+# =============================================================================
+
+# Tab-separated sample sheet (see config/samples.tsv for the format).Containing sample's SRA number or sample names
+samples: config/samples.tsv
+
+#output directory name. For next runs you need to change this name not to overwrite previously run results. 
+#run_dir: runs/ecoli_run03
+run_dir: runs/bsubtilis_run04
+
+# -----------------------------------------------------------------------------
+# Reference genome + annotation
+# `fasta` and `gff` can be either a URL (http/https/ftp) or a local path.
+# Fastq reads are expecte to be gzipped, but the reference files can be gzipped or uncompressed.
+# FASTA and GFF must come from the same assembly so sequence IDs match.
+# -----------------------------------------------------------------------------
+
+reference:
+  #This name is used for the reference genome
+#  name: ecoli_rel606
+  name: bsubtilis_168
+
+  #path to where your local reference genome is
+#  fasta: /Users/sahar/Documents/projects/Bacterial_variant_calling/reference/ecoli_rel606.fasta
+#  gff: /Users/sahar/Documents/projects/Bacterial_variant_calling/reference/ecoli_rel606.gff
+
+  #path to NCBI to download the reference genome
+  fasta: https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/009/045/GCF_000009045.1_ASM904v1/GCF_000009045.1_ASM904v1_genomic.fna.gz
+  gff: https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/009/045/GCF_000009045.1_ASM904v1/GCF_000009045.1_ASM904v1_genomic.gff.gz
+
+
+# Default threads for multi-threaded steps (capped by --cores).
+threads: 4
+
+# -----------------------------------------------------------------------------
+# Read trimming (fastp).
+# The fastp default --detect_adapter_for_pe is enabled
+# overlap-independent adapter detection for paired-end reads.
+# -----------------------------------------------------------------------------
+fastp:
+  extra: "--detect_adapter_for_pe"
+
+# -----------------------------------------------------------------------------
+# Variant calling (bcftools mpileup | bcftools call)
+# -----------------------------------------------------------------------------
+mpileup:
+  min_mapq: 20        # -q : skip reads with mapping quality below this
+  min_baseq: 20       # -Q : skip bases with base quality below this
+  max_depth: 1000     # -d : max reads per position (default 250 is low for some bacterial runs)
+  extra: ""           # No additional bcftools mpileup options are appended. Add command-line options here if needed.
+
+call:
+  # Bacteria are haploid. The pipeline's command omits this (diploid default);
+  # --ploidy 1 avoids nonsensical heterozygous calls.
+  ploidy: 1           # Call variants assuming one chromosome copy, which is typical for haploid bacteria.
+  extra: ""
+
+# -----------------------------------------------------------------------------
+# Filtering. Project-specific demonstration filters
+# (QUAL >= 30 and total depth >= 10). Not a universal "correct" threshold.
+# Any bcftools expression is allowed, e.g.
+#   "QUAL>=30 && INFO/DP>=10 && MQ>=30"
+# -----------------------------------------------------------------------------
+filter:
+  include: "QUAL>=30 && INFO/DP>=10"
+
+# -----------------------------------------------------------------------------
+# Alignment QC: positions with depth below this are written to
+# results/alignment/{sample}.low_coverage.bed
+# -----------------------------------------------------------------------------
+coverage:
+  low_depth: 5

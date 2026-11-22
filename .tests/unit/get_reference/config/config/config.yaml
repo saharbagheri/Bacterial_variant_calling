@@ -1,0 +1,62 @@
+# =============================================================================
+# Configuration for the bacterial variant-calling workflow
+# (E. coli SRR030257 vs. E. coli B str. REL606, from
+#  "Beginner Genomics: From FASTQ to Variants")
+# =============================================================================
+
+# Tab-separated sample sheet (see config/samples.tsv for the format).
+samples: config/samples.tsv
+
+# -----------------------------------------------------------------------------
+# Reference genome + annotation
+# `fasta` and `gff` can be either a URL (http/https/ftp) or a local path.
+# Gzipped or plain files are both fine; they are decompressed on the way in.
+# FASTA and GFF must come from the same assembly so sequence IDs match
+# (here both use NC_012967.1). The workflow checks this before annotation.
+# -----------------------------------------------------------------------------
+reference:
+  name: ecoli_rel606
+  fasta: https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/017/985/GCF_000017985.1_ASM1798v1/GCF_000017985.1_ASM1798v1_genomic.fna.gz
+  gff: https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/017/985/GCF_000017985.1_ASM1798v1/GCF_000017985.1_ASM1798v1_genomic.gff.gz
+
+# Default threads for multi-threaded steps (capped by --cores).
+threads: 4
+
+# -----------------------------------------------------------------------------
+# Read trimming (fastp). Anything here is appended to the fastp command.
+# The guide uses fastp defaults; --detect_adapter_for_pe additionally enables
+# overlap-independent adapter detection for paired-end reads.
+# -----------------------------------------------------------------------------
+fastp:
+  extra: "--detect_adapter_for_pe"
+
+# -----------------------------------------------------------------------------
+# Variant calling (bcftools mpileup | bcftools call)
+# -----------------------------------------------------------------------------
+mpileup:
+  min_mapq: 20        # -q : skip reads with mapping quality below this
+  min_baseq: 20       # -Q : skip bases with base quality below this
+  max_depth: 1000     # -d : max reads per position (default 250 is low for some bacterial runs)
+  extra: ""
+
+call:
+  # Bacteria are haploid. The guide's command omits this (diploid default);
+  # --ploidy 1 avoids nonsensical heterozygous calls.
+  ploidy: 1
+  extra: ""
+
+# -----------------------------------------------------------------------------
+# Filtering. Project-specific demonstration filter from the guide
+# (QUAL >= 30 and total depth >= 10). Not a universal "correct" threshold.
+# Any bcftools expression is allowed, e.g.
+#   "QUAL>=30 && INFO/DP>=10 && MQ>=30"
+# -----------------------------------------------------------------------------
+filter:
+  include: "QUAL>=30 && INFO/DP>=10"
+
+# -----------------------------------------------------------------------------
+# Alignment QC: positions with depth below this are written to
+# results/alignment/{sample}.low_coverage.bed
+# -----------------------------------------------------------------------------
+coverage:
+  low_depth: 5

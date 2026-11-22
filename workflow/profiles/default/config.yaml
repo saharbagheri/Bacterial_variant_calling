@@ -1,0 +1,10 @@
+# Default profile, picked up automatically by Snakemake >= 8 when run from
+# the project root. Override any of these on the command line.
+cores: 4
+software-deployment-method: apptainer      # was: conda
+apptainer-prefix: /Users/sahar/Documents/projects/Bacterial_variant_calling/.snakemake/singularity
+printshellcmds: true
+rerun-incomplete: true
+keep-going: false
+
+

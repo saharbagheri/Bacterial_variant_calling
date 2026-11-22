@@ -1,0 +1,54 @@
+# Large data: never commit (see guide section 14)
+data/
+reference/
+*.fastq
+*.fastq.gz
+*.fq.gz
+*.sam
+*.bam
+*.bam.bai
+*.vcf.gz
+*.vcf.gz.csi
+*.bcf
+*.depth.txt.gz
+*.fna
+*.fa
+*.fasta
+*.gff
+*.gff3
+*.docx
+*.pdf
+*.txt
+
+# Snakemake bookkeeping, logs and bulky reports
+.snakemake/
+.workflow
+logs/
+results/
+runs/
+
+# Keep small, useful results (summary + variant tables + MultiQC HTML) by default
+__pycache__/
+.DS_Store
+
+
+*.log
+slurm-*.out
+slurm-*.err
+
+# Apptainer cache and temporary files
+apptainer_cache/
+apptainer_tmp/
+*.sif
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+
+docker/

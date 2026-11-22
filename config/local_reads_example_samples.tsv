@@ -1,0 +1,4 @@
+sample	sra	fq1	fq2
+SRR030257		/Users/sahar/Documents/projects/Bacterial_variant_calling/data/raw/SRR030257_R1.fastq.gz	/Users/sahar/Documents/projects/Bacterial_variant_calling/data/raw/SRR030257_R2.fastq.gz	
+SRR030256		/Users/sahar/Documents/projects/Bacterial_variant_calling/data/raw/SRR030256_R1.fastq.gz	/Users/sahar/Documents/projects/Bacterial_variant_calling/data/raw/SRR030256_R2.fastq.gz
+SRR030258		/Users/sahar/Documents/projects/Bacterial_variant_calling/data/raw/SRR030258_R1.fastq.gz	/Users/sahar/Documents/projects/Bacterial_variant_calling/data/raw/SRR030258_R2.fastq.gz
