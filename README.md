@@ -26,7 +26,7 @@ reference ─► bwa index / faidx    ▼
 
 ## Rule graph
 
-![Snakemake rule graph](docs/rule-graph.png)
+![Snakemake rule graph](rulegraph.png)
 
 
 ## Runtime and tool versions
