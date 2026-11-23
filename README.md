@@ -346,7 +346,7 @@ Two samples were run together to check that multi-sample runs work.
 
 ## Notes
 
-- This pipeline has been tested by single and multiple samples, and the filters are project-specific: QUAL ≥ 30 and DP ≥ 10 are not universally correct.
+- This pipeline has been tested by single and multiple samples, and the filters are project-specific: QUAL ≥ 30 and DP ≥ 10 are not universally correct. In a real research analysis, thresholds should be chosen and validated for the organism, sequencing design, expected ploidy, coverage and scientific question.
 
 - There are unit tests in .tests/unit/ (one per rule) and you can run them by (pytest .tests/unit).
 
