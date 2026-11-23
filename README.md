@@ -371,3 +371,20 @@ E. coli reads:
 SRR030256
 SRR030257
 SRR030258
+
+## Reporting
+
+- Choose high-confidence variants and investigate them.
+
+- For each interesting variant, report: position • REF • ALT • type • depth • quality •
+gene/feature • predicted consequence • what the gene does • what the literature/database
+says • why the variant is interesting.
+
+## Questions to answer
+
+● Is the variant in a gene or intergenic region?
+● If it is coding, is it synonymous, missense or another consequence?
+● How much read evidence supports the alternate allele?
+● Does the variant appear clean in IGV?
+● What is known about the affected gene/pathway?
+● Could the observation be a mapping/repeat/artifact rather than a true mutation?
